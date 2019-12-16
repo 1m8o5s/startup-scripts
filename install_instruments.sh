@@ -1,5 +1,16 @@
 #!/bin/bash
-
+if [ ! -f .env ]
+then
+  export $(cat .env | xargs)
+else
+  export USE_SETUP_VALIDATE_PASSWORD_SCRIPT=n
+  export MYSQL_PASSWORD=123456
+  export CONTINUE_WITH_PASSWORD_PROVIDED=y
+  export REMOVE_ANONYMOUS_USERS=y
+  export DISALLOW_ROOT_LOGIN_REMOTELY=n
+  export REMOVE_TEST_DB_AND_ACCESS_TO_IT=y
+  export RELOAD_PRIVILEGE_TABLES_NOW=y
+fi
 if [[ -z $1 ]]
 then
 	echo "we will install nothing"
@@ -27,21 +38,21 @@ else
 			set timeout 10
 			spawn mysql_secure_installation
 			expect \"Press y|Y for Yes, any other key for No:\"
-			send \"n\r\"
+			send \"$USE_SETUP_VALIDATE_PASSWORD_SCRIPT\r\"
 			expect \"New password:\"
-			send \"123123123\r\"
+			send \"$MYSQL_PASSWORD\r\"
 			expect \"Re-enter new password:\"
-			send \"123123123\r\"
+			send \"$MYSQL_PASSWORD\r\"
 			expect \"Do you wish to continue with the password provided?(Press y|Y for Yes, any other key for No) :\"
-			send \"y\r\"
+			send \"$CONTINUE_WITH_PASSWORD_PROVIDED\r\"
 			expect \"Remove anonymous users? (Press y|Y for Yes, any other key for No) :\"
-			send \"y\r\"
+			send \"$REMOVE_ANONYMOUS_USERS\r\"
 			expect \"Disallow root login remotely? (Press y|Y for Yes, any other key for No) :\"
-			send \"n\r\"
+			send \"$DISALLOW_ROOT_LOGIN_REMOTELY\r\"
 			expect \"Remove test database and access to it?\"
-			send \"y\r\"
+			send \"$REMOVE_TEST_DB_AND_ACCESS_TO_IT\r\"
 			expect \"Reload privilege tables now?\"
-			send \"y\r\"
+			send \"$RELOAD_PRIVILEGE_TABLES_NOW\r\"
 			expect eof
 			")
 			echo "$SECURE_MYSQL"
