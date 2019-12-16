@@ -23,7 +23,7 @@ else
 
 			sudo apt-get install -y expect
 
-			SECURE_MYSQL=$(expect -c "
+			SECURE_MYSQL=$(sudo expect -c "
 			set timeout 10
 			spawn mysql_secure_installation
 			expect \"Press y|Y for Yes, any other key for No:\"
