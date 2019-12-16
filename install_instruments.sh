@@ -59,7 +59,7 @@ else
 			echo "mongodb-org-server hold" | sudo dpkg --set-selections
 			echo "mongodb-org-shell hold" | sudo dpkg --set-selections
 			echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
-			sudo systemctl enable mongodb
+			sudo systemctl enable mongod
 		fi
 	done
 fi
