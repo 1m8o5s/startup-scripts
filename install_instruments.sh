@@ -1,7 +1,7 @@
 #!/bin/bash
-if [ -f .env ]
+if [ -f config.env ]
 then
-  export $(cat .env | xargs)
+  export $(cat config.env | xargs)
 else
   export USE_SETUP_VALIDATE_PASSWORD_SCRIPT=n
   export MYSQL_PASSWORD=123456
@@ -27,6 +27,7 @@ else
 		then
 			sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 			sudo chmod +x /usr/local/bin/docker-compose
+			sudo ln -s /usr/local/bin/docker-compose
 		elif [[ $i = "mysql" ]]
 		then
 			sudo apt update
